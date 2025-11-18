@@ -58,7 +58,7 @@
   .carousel-inner img {
       width: 100%; /* Set width to 100% */
       margin: auto;
-      min-height:200px;
+      min-height:100px;
   }
 
   /* Hide the carousel text when the screen is less than 600 pixels wide http://115.243.147.107:5938/(S(qf1yxgznbrdgdmmrt1ok3q40))/CompuOffice/UserManagement/ResetPwd.aspx?ENCm7f_aM5_-YMFK1IlcmgLF52knWXBAMK8URDFdFRp1mYQ4ef4Rpe016k7uR8vhlQGz8oVccYSNUdnnkclP-17gSoSUP-wiZj3 */
@@ -88,7 +88,7 @@
                     <!-- Wrapper for slides -->
                     <div class="carousel-inner" role="listbox">
                       <div class="item active">
-                        <img src="ipad.jpg" alt="Image" title="IoT Readings" class="a200x160px">>
+                        <img src="ipad.jpg" alt="Image" title="IoT Readings">
                         <div class="carousel-caption">
                          </div>      
                       </div>
@@ -118,9 +118,7 @@
                          <div id="gauge" class="a200x160px"></div>
                       
                       <h3>What We Do</h3><br>
-                  <div id="error" style="display:none; color: red; font-weight: bold; margin: 10px 0;"></div>
-  
-                  <button onclick="simulateError()">Simulate WebSocket Error</button>
+                  
   
                  <div class="row">
                   
@@ -145,8 +143,7 @@
                                  <button class="btn" onclick='Sent4("EE")'>LED4 ON</button><a id ="Digital4">-</a>
                                  <button class="btn" onclick='Sent4("FF")'>LED4 OFF</button><br><br>
                                  
-                                 <button class="btn"><a href="http://sameena.dx.am/menu.html">UPCOMING</a></button>
-                                  <br><br>
+                                 
                              </div> 
                  
          </div>  
@@ -219,17 +216,6 @@ function onMessageArrived(message) {
   }
 }
 
-// Error handler
-function onFailure(invocationContext, errorCode, errorMessage) {
-  var errDiv = document.getElementById("error");
-  errDiv.textContent = "Could not connect to WebSocket server: " + errorMessage;
-  errDiv.style.display = "block";
-}
-
-      function simulateError() {
-      // Simulate a failure with an example error message
-      onFailure(null, 1006, "Connection lost");
-    }
 
 // Create a unique client ID
 var clientId = "ws" + Math.random();
@@ -267,5 +253,6 @@ client.connect(connectOptions);
 </footer>
 </body>             
 </html>
+
 
 
