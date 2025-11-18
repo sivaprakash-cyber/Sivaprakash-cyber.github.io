@@ -1,0 +1,261 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <title>IoT Readings</title>
+  <meta name="description" content=" IoT Readings of this page">
+   
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src='mqttws31.js' type='text/javascript'></script> 
+    <!-- https://api.cloudmqtt.com/sso/js/mqttws31.js --> 
+    <script src="raphael-2.1.4.min.js"></script>
+    <script src="justgage.js"></script>
+   
+ 
+  
+  <style>
+  
+   .a200x160px{
+    
+    width: 100%;
+    height: 550%;
+    
+    }
+  
+    /* Remove the navbar's default margin-bottom and rounded borders */ 
+    .navbar {
+      margin-bottom: 0;
+      border-radius: 0;
+    }
+    
+            .btn {
+           /* background-color: DodgerBlue;*/
+           background-color:  #78e1ff;
+            border: none;
+            color: white;
+            padding: 12px 16px;
+            font-size: 16px;
+            cursor: pointer;
+                }
+                
+        /* Darker background on mouse-over */
+        .btn:hover {
+            background-color: RoyalBlue;
+                        }
+    
+    /* Add a gray background color and some padding to the footer */
+    footer {
+      background-color: #f2f2f2;
+      padding: 25px;
+    }
+    
+  .carousel-inner img {
+      width: 100%; /* Set width to 100% */
+      margin: auto;
+      min-height:200px;
+  }
+
+  /* Hide the carousel text when the screen is less than 600 pixels wide http://115.243.147.107:5938/(S(qf1yxgznbrdgdmmrt1ok3q40))/CompuOffice/UserManagement/ResetPwd.aspx?ENCm7f_aM5_-YMFK1IlcmgLF52knWXBAMK8URDFdFRp1mYQ4ef4Rpe016k7uR8vhlQGz8oVccYSNUdnnkclP-17gSoSUP-wiZj3 */
+  @media (max-width: 600px) {
+    .carousel-caption {
+      display: none; 
+    }
+  }
+  </style>
+</head>
+<body>
+                
+                <nav class="navbar navbar-inverse">
+                 
+                       <a class="navbar-brand" href="#">IoT Readings</a>
+                 
+                  
+                </nav>
+                
+                <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                    <!-- Indicators -->
+                    <ol class="carousel-indicators">
+                      <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                      <li data-target="#myCarousel" data-slide-to="1"></li>
+                    </ol>
+                
+                    <!-- Wrapper for slides -->
+                    <div class="carousel-inner" role="listbox">
+                      <div class="item active">
+                        <img src="ipad.jpg" alt="Image" title="IoT Readings">
+                        <div class="carousel-caption">
+                         </div>      
+                      </div>
+                
+                      <div class="item">
+                        <img src="lamp.jpg" alt="Image" title="IoT Readings">
+                        <div class="carousel-caption"></div>      
+                      </div>
+                    </div>
+                </div>
+                
+                    <!-- Left and right controls -->
+                    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+                      <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                      <span class="sr-only">Previous</span>
+                    </a>
+                    
+                    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+                      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                      <span class="sr-only">Next</span>
+                    </a>
+                  
+                  
+  <div class="container text-center">   
+                
+                
+                         <div id="gauge" class="a200x160px"></div>
+                      
+                      <h3>What We Do</h3><br>
+                 
+                 <div class="row">
+                  
+                 
+     
+                           <div>
+                            
+                               
+                                 
+        
+                                 <button class="btn" onclick='Sent1("ON")'>LED1 ON</button><a id ="Digital1">-</a>
+                                 <button class="btn" onclick='Sent1("OFF")'>LED1 OFF</button><br><br> 
+                                                                   
+                                 <button class="btn" onclick='Sent2("AA")'>LED2 ON</button><a id ="Digital2">-</a>
+                                 <button class="btn" onclick='Sent2("BB")'>LED2 OFF</button><br><br>
+                                 
+                                 
+                                 <button class="btn" onclick='Sent3("CC")'>LED3 ON</button><a id ="Digital3">-</a>
+                                 <button class="btn" onclick='Sent3("DD")'>LED3 OFF</button><br><br>
+                                 
+                                 
+                                 <button class="btn" onclick='Sent4("EE")'>LED4 ON</button><a id ="Digital4">-</a>
+                                 <button class="btn" onclick='Sent4("FF")'>LED4 OFF</button><br><br>
+                                 
+                                 <button class="btn"><a href="http://sameena.dx.am/menu.html">UPCOMING</a></button>
+                                  <br><br>
+                             </div> 
+                 
+         </div>  
+         </div>      
+              
+                        
+                
+                
+                
+                
+                
+   <script>      
+// Variables for username and password
+var usuario = 'sivaprakash';
+var contrasena = 'Prakash1';
+
+// Create the JustGage gauge (assumes JustGage and Raphael scripts are loaded)
+var g = new JustGage({
+  id: "gauge",
+  min: 0,
+  max: 40,
+  title: "Temperature"
+});
+
+// Functions to send messages to each digital topic
+function Sent1(dato){
+  var message = new Paho.MQTT.Message(dato);
+  message.destinationName = '/' + usuario + '/Digital1';
+  client.send(message);
+}
+function Sent2(dato){
+  var message = new Paho.MQTT.Message(dato);
+  message.destinationName = '/' + usuario + '/Digital2';
+  client.send(message);
+}
+function Sent3(dato){
+  var message = new Paho.MQTT.Message(dato);
+  message.destinationName = '/' + usuario + '/Digital3';
+  client.send(message);
+}
+function Sent4(dato){
+  var message = new Paho.MQTT.Message(dato);
+  message.destinationName = '/' + usuario + '/Digital4';
+  client.send(message);
+}
+
+// Called when the client connects
+function onConnect() {
+  console.log("onConnect");
+  client.subscribe("/" + usuario + "/temperature");
+}
+
+// Called when the client loses its connection
+function onConnectionLost(responseObject) {
+  if (responseObject.errorCode !== 0) {
+    console.log("onConnectionLost:", responseObject.errorMessage);
+    setTimeout(function() { client.connect(connectOptions); }, 5000);
+  }
+}
+
+// Called when a message arrives
+function onMessageArrived(message) {
+  if (message.destinationName === '/' + usuario + '/temperature') {
+    g.refresh(message.payloadString);
+  }
+  for (var i = 1; i <= 4; i++) {
+    if (message.destinationName === '/' + usuario + '/Digital' + i) {
+      document.getElementById('Digital' + i).textContent = message.payloadString;
+    }
+  }
+}
+
+// Error handler
+function onFailure(invocationContext, errorCode, errorMessage) {
+  var errDiv = document.getElementById("error");
+  errDiv.textContent = "Could not connect to WebSocket server: " + errorMessage;
+  errDiv.style.display = "block";
+}
+
+// Create a unique client ID
+var clientId = "ws" + Math.random();
+
+// Create the MQTT client instance, update host as per your HiveMQ Cloud instance
+var client = new Paho.MQTT.Client(
+  "87e9d52705134b619e0e8bcdc62064f7.s1.eu.hivemq.cloud", // Example: "mycluster.s1.eu.hivemq.cloud"
+  8884,                            // WebSockets SSL port (often 8884 for HiveMQ Cloud)
+  clientId
+);
+
+// Set callback handlers
+client.onConnectionLost = onConnectionLost;
+client.onMessageArrived = onMessageArrived;
+
+// Connection options object
+var connectOptions = {
+  useSSL: true,
+  userName: usuario,
+  password: contrasena,
+  onSuccess: onConnect,
+  onFailure: onFailure,
+  keepAliveInterval: 30
+};
+
+// Connect the client
+client.connect(connectOptions);
+
+         
+        </script>
+ 
+ 
+    <footer class="container-fluid text-center">
+  <p> Powered by Sivaprakash</p>
+</footer>
+</body>             
+</html>
