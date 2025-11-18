@@ -118,7 +118,10 @@
                          <div id="gauge" class="a200x160px"></div>
                       
                       <h3>What We Do</h3><br>
-                 
+                  <div id="error" style="display:none; color: red; font-weight: bold; margin: 10px 0;"></div>
+  
+                  <button onclick="simulateError()">Simulate WebSocket Error</button>
+  
                  <div class="row">
                   
                  
@@ -223,6 +226,11 @@ function onFailure(invocationContext, errorCode, errorMessage) {
   errDiv.style.display = "block";
 }
 
+      function simulateError() {
+      // Simulate a failure with an example error message
+      onFailure(null, 1006, "Connection lost");
+    }
+
 // Create a unique client ID
 var clientId = "ws" + Math.random();
 
@@ -259,4 +267,5 @@ client.connect(connectOptions);
 </footer>
 </body>             
 </html>
+
 
