@@ -197,7 +197,10 @@ function onConnect() {
   console.log("onConnect");
   client.subscribe("/" + usuario + "/temperature");
 }
-
+function onFailure(error) {
+  console.error("Connection failed: ", error.errorMessage);
+  // Optionally, retry connection or inform the user
+}
 // Called when the client loses its connection
 function onConnectionLost(responseObject) {
   if (responseObject.errorCode !== 0) {
@@ -255,6 +258,7 @@ client.connect(connectOptions);
 </footer>
 </body>             
 </html>
+
 
 
 
